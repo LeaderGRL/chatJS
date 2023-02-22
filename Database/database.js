@@ -55,7 +55,7 @@ class database
     // Function to add a new message to the database
     StoreUserMessage(data) {
         return new Promise((resolve, reject) => {
-            db.execute('INSERT INTO messages (name, userId message) VALUES (?, ?, ?)', [data.username, data.userId, data.message], (err, result) => {
+            db.execute('INSERT INTO messages (userId, name, message) VALUES (?, ?, ?)', [data.userId, data.username, data.message], (err, result) => {
                 if (err) reject(err);
                 resolve(result);
             });

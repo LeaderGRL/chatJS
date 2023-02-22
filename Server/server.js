@@ -1,15 +1,17 @@
+const express = require('express');
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
-const database = require('./Database/database.js');
+const database = require(__dirname + '/../Database/database.js');
 const port = 3000;
 
 // Create a new instance of the database class
 const db = new database();
 
+app.use(express.static(path.join(__dirname, '/../Client'))); // Serve the client folder
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html')); // Send the index.html file to the client
+    res.sendFile(path.join(__dirname, '/../Client/index.html')); // Send the index.html file to the client
 });
 
 io.on('connection', (socket) => {
