@@ -1,8 +1,8 @@
 const socket = io();
-const app = vue.createApp({
+const app = Vue.createApp({
     data() {
         return {
-            message: '',
+            message: 'default',
             messages: [],
             typing: false,
             user: '',
@@ -10,11 +10,23 @@ const app = vue.createApp({
             connections: 0,
         }
     },
+    watch: {
+        username() {
+            console.log("new username : ${username}")
+        },
+    },
     methods: {
         // Function to send a message to the server
         SendMessage() {
+            this.user = username.value;
+            this.message = message.value;
+            console.log("LE MESSAGE : " + this.user + " : " + this.message);
             if (this.message != '') {
-                socket.emit('message', this.message);
+                socket.emit('message', 
+                {
+                    message: this.message,
+                    name: this.user,
+                });
                 this.message = '';
             }
         },
@@ -38,12 +50,20 @@ const app = vue.createApp({
                 socket.emit('Left', this.user);
             }
         },
+        Test() {
+            console.log("test");
+        }
     },
     mounted() {
         // Function to handle the message event
-        socket.on('message', (msg) => {
-            this.messages.push(msg);
-            console.log(msg);
+        socket.on('message', (data) => {
+            this.messages.push({
+                message: data.message,
+                //type: 1,
+                user: data.username,
+
+            });
+            console.log("testtttttttt :" + msg);
         });
         // Function to handle the typing event
         socket.on('Typing', (data) => {
@@ -67,3 +87,31 @@ const app = vue.createApp({
         });
     }
 });
+
+app.mount('#app')
+
+// app.component('chat', {
+//     template: `
+//         <div class="chat">
+//             <div class="chat-header">
+//                 <h1>Chat</h1>
+//             </div>
+//             <div class="chat-body">
+//                 <div class="chat-messages">
+//                     <div class="chat-message" v-for="message in messages"> {{ message }} </div>
+//                 </div>
+//             </div>
+//             <div class="chat-footer">
+//                 <input type="text" v-model="message" @keyup.enter="SendMessage" @keyup="Typing" @keyup="StopTyping" placeholder="Type a message...">
+//                 <button @click="SendMessage">Send</button>
+//             </div>
+//         </div>
+//     `,
+//     props: ['messages', 'message'],
+//     methods: {
+//         SendMessage() {
+//             this.$emit('send-message');
+//         }
+//     }
+// });
+

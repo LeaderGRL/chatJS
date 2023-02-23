@@ -10,7 +10,7 @@ class database
             host: 'localhost',
             user: 'root',
             password: '',
-            database: 'test'
+            database: 'chatJS'
         });
         db.connect(function(err) {
             if (err) throw err; // If error, throw error
@@ -24,7 +24,7 @@ class database
             if (await this.IsUserExist(data)) { // If the user already exist, reject the promise and return an error
                 reject("User already exist");
             } else {
-                db.execute('INSERT INTO users (username, password) VALUES (?, ?)', [data.username, data.password], (err, result) => {
+                db.execute('INSERT INTO users (id, username, password) VALUES (?, ?, ?)', [0, data.name], (err, result) => {
                     if (err) reject(err);
                     resolve(result); // If no error, resolve the promise and return the result
                 });
@@ -55,7 +55,7 @@ class database
     // Function to add a new message to the database
     StoreUserMessage(data) {
         return new Promise((resolve, reject) => {
-            db.execute('INSERT INTO messages (userId, name, message) VALUES (?, ?, ?)', [data.userId, data.username, data.message], (err, result) => {
+            db.execute('INSERT INTO messages (messageId, userId, name, message) VALUES (?, ?, ?, ?)', [0, data.userId, data.name, data.message], (err, result) => {
                 if (err) reject(err);
                 resolve(result);
             });

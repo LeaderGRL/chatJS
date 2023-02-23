@@ -3,14 +3,16 @@
     <head>
         <title>chatJS</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.cjs.js" integrity="sha512-DD31SaA8/u+cn6fBAdPBcABgOkmiogzhPd/dNHvkMmazQLEjiaT9ZP51rkGTpFcx+jFl0EeNCxgxLaNniutt2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     </head>
     <body>
         <div id="app" class="container py-5">
             <!-- Section pour entrer le nom d'utilisateur -->
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" v-model="username" />
-            </div>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" v-model="username" @click="Test"/>
+              </div>
       
             <!-- Section pour voir les utilisateurs connectés -->
             <div class="mb-3">
@@ -25,19 +27,19 @@
               <h3>Chat Room</h3>
               <ul class="list-group" id="chatMessages">
                 <li class="list-group-item" v-for="message in messages" :key="message.id">
-                  <strong>{{ message.username }}</strong>: {{ message.text }}
+                  <strong>{{ username }}</strong>: {{ message }}
                 </li>
               </ul>
-      
+            
               <div class="mt-3">
-                <form @submit.prevent="sendMessage">
-                  <input type="text" class="form-control" v-model="messageText" placeholder="Type your message here" />
+                <form @submit.prevent="SendMessage">
+                  <input type="text" class="form-control" v-model="message" placeholder="Type your message here" />
                   <button type="submit" class="btn btn-primary mt-3">Send</button>
                 </form>
               </div>
             </div>
           </div>
+          <script src="https://unpkg.com/vue@next"></script>
+          <script src="Client.js"></script>
     </body>
-    <script src="http://unpkg.com/vue@next"></script>
-    <script src="Client.js"></script>
 </html>

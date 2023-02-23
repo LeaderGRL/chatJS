@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
         console.log('User : ' + socket.id + ' disconnected'); 
     });
 
-    if (io.socket.connected)
+    if (io.sockets.connected)
     {
         socket.emit("connections", Object.keys(io.sockets.connected).length); // Send the number of connections to the client
     } 
@@ -30,10 +30,11 @@ io.on('connection', (socket) => {
     }
 
     socket.on('message', async (msg) => {
+        console.log("MSG : " + msg.name + " : " + msg.message);
         const data = {
-            message: msg,
+            message: msg.message,
             userId: socket.id,
-            name: message.user,
+            name: msg.user,
         }
         await db.StoreUserMessage(data); // Store the message in the database
         socket.broadcast.emit('message', msg); // Send the message to all the clients except the sender
