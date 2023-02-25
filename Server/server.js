@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
         const data = {
             message: msg.message,
             userId: socket.id,
-            name: msg.user,
+            name: msg.name,
         }
         await db.StoreUserMessage(data); // Store the message in the database
         socket.broadcast.emit('message', msg); // Send the message to all the clients except the sender

@@ -19,7 +19,7 @@ const app = Vue.createApp({
         // Function to send a message to the server
         SendMessage() {
             this.user = username.value;
-            this.message = message.value;
+            //this.message = message.value;
             console.log("LE MESSAGE : " + this.user + " : " + this.message);
             if (this.message != '') {
                 socket.emit('message', 
@@ -55,6 +55,7 @@ const app = Vue.createApp({
         }
     },
     mounted() {
+        console.log("MOUNTEDDDDDDDDDDDDDD");
         // Function to handle the message event
         socket.on('message', (data) => {
             this.messages.push({
@@ -63,7 +64,6 @@ const app = Vue.createApp({
                 user: data.username,
 
             });
-            console.log("testtttttttt :" + msg);
         });
         // Function to handle the typing event
         socket.on('Typing', (data) => {
@@ -85,6 +85,9 @@ const app = Vue.createApp({
         socket.on('connections', (data) => {
             this.connections = data;
         });
+    },
+    unmounted() {
+        console.log("UNMOUNTEDDDDDDDDDDDDDD");
     }
 });
 
